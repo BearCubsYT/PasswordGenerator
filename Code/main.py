@@ -1,23 +1,59 @@
 import random
 import json
 import colorama as ca
+import time
 ca.init(autoreset=True)
 
-def printLogo():
-    print(ca.Fore.CYAN + ca.Style.DIM + "WELCOME TO!!!!!!!")
-    print(ca.Fore.BLACK + ca.Style.DIM + ".===========.")
-    print("|           |") 
-    print("|password   |")  
-    print("|    manager|")
-    print("|___________|")
-    print("|_________-_|_,-.")
-    print("[_____________]   )")
-    print(".,,,,,,,,,, ,,.  (_")
-    print("/,,,,,,,,,,, ,,,\\ (>`\\ ")
-    print("(______.-``-._____) \\__)")
+active = True
+UNDERLINE = '\033[4m'
+RESET = '\033[0m'
 
-def titleScreen():
-    printLogo()
+def PrintLogo():
+    print(ca.Fore.RED + ca.Style.BRIGHT + "\n\n    .===========.")
+    print(ca.Fore.RED + ca.Style.BRIGHT + "    |           |") 
+    print(ca.Fore.RED + ca.Style.BRIGHT + "    |password   |")  
+    print(ca.Fore.RED + ca.Style.BRIGHT + "    |    manager|")
+    print(ca.Fore.RED + ca.Style.BRIGHT + "    |___________|")
+    print(ca.Fore.RED + ca.Style.BRIGHT + "    |_________-_|_,-.")
+    print(ca.Fore.RED + ca.Style.BRIGHT + "    [_____________]   )")
+    print(ca.Fore.RED + ca.Style.BRIGHT + "    .,,,,,,,,,, ,,.  (_")
+    print(ca.Fore.RED + ca.Style.BRIGHT + "    /,,,,,,,,,,, ,,,\\ (>\\") 
+    print(ca.Fore.RED + ca.Style.BRIGHT + "    (______.-``-._____) \\__)\n")
+
+def PrintChoices():
+    print(RESET + ca.Fore.GREEN + ca.Style.BRIGHT + "Choices: ")
+    print(ca.Fore.GREEN + "  New Website (Web+)")
+    print(ca.Fore.GREEN + "  New Account (Acc+)")
+    print(ca.Fore.GREEN + "  Delete Website (Web-)")
+    print(ca.Fore.GREEN + "  Delete Account (Acc-)")
+    print(ca.Fore.GREEN + "  Show Website (Web=)")
+    print(ca.Fore.GREEN + "  Show Accounts (Accs=)")
+
+def NewWeb():
+    with open("Code/passwords.json") as f:
+        data = json.load(f)
+    print(RESET + ca.Fore.GREEN + "\n\nEnter Website Name:")
+    websiteName = input(f"{ca.Fore.CYAN}{UNDERLINE}  ")
+    for website in data:
+        if website == websiteName:
+            print(RESET + ca.Fore.RED + "\nSorry, you already added this website, try again!")
+            time.sleep(1)
+            found = True
+        else:
+            found = False
+    if not found:
+        with open("passwords.json", "w") as f:
+                json.dump(data, f, indent=4)
+        
+
+while active:
+    PrintLogo()
+    PrintChoices()
+    choice = input(f"{ca.Fore.CYAN}{UNDERLINE}")
+    if choice.lower().replace(" ", "") == "web+":
+        NewWeb()
+
+    
 
 # # All Data List
 # all_data = []
